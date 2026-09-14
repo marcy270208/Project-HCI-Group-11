@@ -1351,3 +1351,7 @@ body.light-theme #search-form #close {
 body.light-theme #search-form #close:hover {
     color: #ef4444; /* Keep the red on hover */
 }
+
+body.light-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: none;
+}
