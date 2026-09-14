@@ -1352,6 +1352,88 @@ body.light-theme #search-form #close:hover {
     color: #ef4444; /* Keep the red on hover */
 }
 
+
+@media (max-width: 768px) {
+    .settings-box {
+        padding: 2rem;
+    }
+    .settings-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .account-settings {
+        padding-top: 10rem;
+    }
+}
+
+
+/* --- Global Mobile Responsiveness --- */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+    header {
+        padding: 2rem;
+    }
+    section {
+        padding: 8rem 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #menu-bars {
+        display: inline-block;
+    }
+    header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #121212;
+        border-top: .1rem solid rgba(255,255,255,.2);
+        padding: 1rem;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: .2s linear;
+        display: block !important; /* Ensure it's not hidden by other flex rules */
+    }
+    header .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    header .navbar a {
+        display: block;
+        padding: 1.5rem;
+        margin: 1rem;
+        font-size: 2rem;
+        background: #1a1a1a;
+        text-align: center;
+        border-radius: var(--radius-sm);
+    }
+    
+    /* Light Theme adjustments for mobile navbar */
+    body.light-theme header .navbar {
+        background: #FFF6F0;
+        border-top: .1rem solid rgba(0,0,0,.1);
+    }
+    body.light-theme header .navbar a {
+        background: #fff;
+        color: var(--secondary);
+    }
+    body.light-theme header .navbar a:hover {
+        background: var(--primary);
+        color: #fff;
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
+    .home .slide .content h3 {
+        font-size: 5rem;
+    }
+}
+
+/* Fix invisible calendar icon in light theme */
 body.light-theme input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: none;
 }
