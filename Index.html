@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+  <!-- Marcy  -->
+  <!-- File Structure -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Ordering Web</title>
+    <!-- Link buat munculin ikon garpu-pisau, kaca pembesar, dll  JANGAN DI HAPUSSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Header Section -->
+    <header>
+      <a href="#home" class="logo"
+        ><i class="fas fa-utensils"></i> Bistro Eleven</a
+      >
+
+      <nav class="navbar">
+        <a class="active" href="Index.html#home">home</a>
+        <a href="Index.html#dishes">dishes</a>
+        <a href="Index.html#about">about</a>
+        <a href="Index.html#menu">menu</a>
+        <a href="Index.html#review">review</a>
+        <a href="checkout.html">order</a>
+      </nav>
+
+      <div class="icons">
+        <i class="fas fa-bars" id="menu-bars"></i>
+        <i class="fas fa-search" id="search-icon"></i>
+        <i class="fas fa-sun" id="theme-toggle" title="Toggle Light Mode"></i>
+        <div id="auth-container"></div>
+        <i class="fas fa-heart" id="wishlist-icon"></i>
+        <i class="fas fa-shopping-cart" id="cart-icon"></i>
+      </div>
+    </header>
+
+    <!-- Search Bar Section -->
+    <form action="" id="search-form">
+      <input
+        type="search"
+        placeholder="search here..."
+        name=""
+        id="search-box"
+      />
+      <label for="search-box" class="fas fa-search"></label>
+      <i class="fas fa-times" id="close"></i>
+    </form>
+
+    <!-- Wishlist Section -->
+    <div class="cart-items-container" id="wishlist-items-container">
+      <div class="cart-header">
+        <h3>your wishlist</h3>
+        <i class="fas fa-times" id="wishlist-close"></i>
+      </div>
+      <div class="cart-items" id="wishlist-items"></div>
+    </div>
+
+    <!-- Cart Section -->
+    <div class="cart-items-container" id="cart-items-container">
+      <div class="cart-header">
+        <h3>your cart</h3>
+        <i class="fas fa-times" id="cart-close"></i>
+      </div>
+      <div class="cart-items"></div>
+      <div class="cart-total">
+        total : <span id="cart-total-price">Rp 0</span>
+      </div>
+      <a
+        href="checkout.html"
+        class="btn checkout-btn"
+        onclick="
+          document
+            .getElementById('cart-items-container')
+            .classList.remove('active')
+        "
+        >checkout now</a
+      >
+    </div>
+
+    <!-- Home Section -->
+    <section class="home" id="home">
+      <!-- Struktur untuk Slider/Carousel -->
+      <div class="swiper home-slider">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide slide">
+            <div class="content">
+              <span>our special dish</span>
+              <h3>BBQ Chicken Pizza</h3>
+              <p>
+                A perfect mix of sweet, smoky, and savory in every single bite.
+              </p>
+              <a href="#menu" class="btn">Order now</a>
+            </div>
+            <div class="image">
+              <img src="Img/Home Section/home-1.png" alt="" />
+            </div>
+          </div>
+
+          <div class="swiper-slide slide">
+            <div class="content">
+              <span>our special dish</span>
+              <h3>Crispy Fried Chicken</h3>
+              <p>
+                Golden crispy on the outside, tender and juicy on the inside,
+                seasoned with our signature botanical herbs.
+              </p>
+              <a href="#menu" class="btn">Order now</a>
+            </div>
+            <div class="image">
+              <img src="Img/Home Section/home-2.png" alt="" />
+            </div>
+          </div>
+
+          <div class="swiper-slide slide">
+            <div class="content">
+              <span>our special dish</span>
+              <h3>Spaghetti Bolognese</h3>
+              <p>
+                Al dente pasta tossed in rich, slow simmered beef ragù and
+                topped with savory parmesan cheese.
+              </p>
+              <a href="#menu" class="btn">Order now</a>
+            </div>
+            <div class="image">
+              <img src="Img/Home Section/home-3.png" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+
+    <!-- Margaret  -->
+    <!-- Dishes section -->
+    <!-- Diurutkan: Makanan Termurah (Rp 30.000) s/d Termahal (Rp 60.000) -->
+    <section class="dishes" id="dishes">
+      <h3 class="sub-heading">Our Popular Dishes</h3>
+      <h1 class="heading">Start with the Best</h1>
+
+      <div class="box-container">
+        <!-- Rp 30.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-1.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Classic Cheeseburger & Fries</h3>
+            <p>
+              juicy beef patty topped with melted cheese, lettuce, tomato, and
+              served with crispy fries.
+            </p>
+            <span class="price">Rp 35.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 30.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-4.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Spaghetti Bolognese</h3>
+            <p>
+              Al dente pasta tossed in rich, slow simmered beef ragù and topped
+              with savory parmesan cheese.
+            </p>
+            <span class="price">Rp 30.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 35.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-2.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Crispy Fried Chicken</h3>
+            <p>
+              Golden crispy on the outside, tender and juicy on the inside,
+              seasoned with our signature botanical herbs.
+            </p>
+            <span class="price">Rp 35.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 45.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-3.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>BBQ Chicken Pizza</h3>
+            <p>
+              A perfect mix of sweet, smoky, and savory in every single bite.
+            </p>
+            <span class="price">Rp 45.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 50.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-5.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Grilled Tenderloin Steak</h3>
+            <p>
+              Tender grilled beef fillet served with buttery mashed potato and
+              crisp asparagus.
+            </p>
+            <span class="price">Rp 50.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 60.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-6.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Grilled Salmon</h3>
+            <p>
+              Tender grilled salmon fillet glazed with savory sauce, served with
+              velvety mash and asparagus.
+            </p>
+            <span class="price">Rp 60.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- dishes section ends -->
+
+    <!-- about section starts -->
+    <section class="about" id="about">
+      <h3 class="sub-heading">about us</h3>
+      <h1 class="heading">why choose us?</h1>
+
+      <div class="row">
+        <div class="image">
+          <img src="Img/About Section/about.jpeg" alt="" />
+        </div>
+
+        <div class="content">
+          <h3>Best Culinary Experience in Country</h3>
+          <p>
+            We serve fresh, honest food made with quality local ingredients.
+            Every dish is cooked with care to bring comforting bistro flavors
+            right to your table.
+          </p>
+          <p>
+            From quick casual bites to hearty dinners, we’re all about great
+            taste, warm vibes, and meals you'll truly enjoy.
+          </p>
+          <div class="icons-container">
+            <div class="icons">
+              <i class="fas fa-shipping-fast"></i>
+              <span>Free delivery</span>
+            </div>
+            <div class="icons">
+              <i class="fas fa-dollar-sign"></i>
+              <span>Easy payments</span>
+            </div>
+            <div class="icons">
+              <i class="fas fa-headset"></i>
+              <span>24/7 service</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- about section ends -->
+
+    <!-- menu section starts  -->
+    <!-- Klasifikasi: Makanan Berat -> Dessert -> Minuman (Masing-masing termurah ke termahal) -->
+    <section class="menu" id="menu">
+      <h3 class="sub-heading">our menu</h3>
+      <h1 class="heading">today's speciality</h1>
+
+      <div class="box-container">
+        <!-- ================= 1. MAKANAN BERAT (TERMURAH -> TERMAHAL) ================= -->
+
+        <!-- Rp 20.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-5.jpeg" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Classic Club Sandwich</h3>
+            <p>
+              Toasted bread layered with tender chicken, fried egg, and crisp
+              vegetables.
+            </p>
+            <span class="price">Rp 20.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 30.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-4.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Spaghetti Bolognese</h3>
+            <p>
+              Al dente pasta tossed in rich, slow simmered beef ragù and topped
+              with savory parmesan cheese.
+            </p>
+            <span class="price">Rp 30.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 35.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-2.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Crispy Fried Chicken</h3>
+            <p>
+              Golden crispy on the outside, tender and juicy on the inside,
+              seasoned with our signature botanical herbs.
+            </p>
+            <span class="price">Rp 35.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 35.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-1.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Classic Cheeseburger & Fries</h3>
+            <p>
+              juicy beef patty topped with melted cheese, lettuce, tomato, and
+              served with crispy fries.
+            </p>
+            <span class="price">Rp 35.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 40.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-1.jpeg" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Classic Pepperoni Pizza</h3>
+            <p>
+              Crispy pepperoni slices on melted mozzarella and tangy tomato
+              sauce.
+            </p>
+            <span class="price">Rp 40.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 45.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-2.jpeg" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Double Cheeseburger & Fries</h3>
+            <p>
+              Two juicy beef patties with melted cheddar, fresh veggies, and
+              crispy fries.
+            </p>
+            <span class="price">Rp 45.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 45.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-3.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>BBQ Chicken Pizza</h3>
+            <p>
+              A perfect mix of sweet, smoky, and savory in every single bite.
+            </p>
+            <span class="price">Rp 45.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 50.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-5.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Grilled Tenderloin Steak</h3>
+            <p>
+              Tender grilled beef fillet served with buttery mashed potato and
+              crisp asparagus.
+            </p>
+            <span class="price">Rp 50.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 60.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Dishes Section/dish-6.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Grilled Salmon</h3>
+            <p>
+              Tender grilled salmon fillet glazed with savory sauce, served with
+              velvety mash and asparagus.
+            </p>
+            <span class="price">Rp 60.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- ================= 2. DESSERT (TERMURAH -> TERMAHAL) ================= -->
+
+        <!-- Rp 20.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-3.jpeg" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Classic Berry Pancakes</h3>
+            <p>
+              Fluffy stacked pancakes drizzled with sweet maple syrup and fresh
+              berries.
+            </p>
+            <span class="price">Rp 20.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 20.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-4.jpeg" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Chocolate Lava Cake</h3>
+            <p>Warm chocolate cake with a rich, gooey melted center.</p>
+            <span class="price">Rp 20.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 32.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-6.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Sweet Cupcake Platter</h3>
+            <p>
+              Soft and sweet assorted cupcakes topped with rich, colorful
+              buttercream.
+            </p>
+            <span class="price">Rp 32.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- ================= 3. MINUMAN (TERMURAH -> TERMAHAL) ================= -->
+
+        <!-- Rp 20.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-7.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Orange Juice</h3>
+            <p>
+              Pure freshly squeezed orange juice served chilled with fresh mint
+              leaves.
+            </p>
+            <span class="price">Rp 20.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 20.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-8.jpg" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Sparkling Lemon Mint</h3>
+            <p>
+              Zesty fresh lemon juice infused with crushed mint and sparkling
+              soda.
+            </p>
+            <span class="price">Rp 20.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+
+        <!-- Rp 20.000 -->
+        <div class="box">
+          <div class="image">
+            <img src="Img/Menu Section/menu-9.png" alt="" />
+            <i class="fas fa-heart wishlist-btn"></i>
+            <i class="fas fa-eye view-btn" title="Quick View"></i>
+          </div>
+          <div class="content">
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <h3>Strawberry Smoothie</h3>
+            <p>
+              Blended fresh strawberries with chilled milk and a hint of mint.
+            </p>
+            <span class="price">Rp 20.000</span>
+            <a href="javascript:void(0)" class="btn add-to-cart">Add to cart</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- menu section ends -->
+
+    <!-- review section starts  -->
+    <section class="review" id="review">
+      <h3 class="sub-heading">customer's review</h3>
+      <h1 class="heading">what they say</h1>
+
+      <div class="box-container">
+        <div class="box">
+          <i class="fas fa-quote-right"></i>
+          <div class="user">
+            <img src="img/Review Section/pic-1.jpg" alt="" />
+            <div class="user-info">
+              <h3>Graciella Coffee Oey</h3>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <p>
+            The BBQ chicken pizza is a must-try! Generous toppings, super
+            crusty, and the staff was really attentive. Definitely coming back.
+          </p>
+        </div>
+
+        <div class="box">
+          <i class="fas fa-quote-right"></i>
+          <div class="user">
+            <img src="img/Review Section/pic-2.jpeg" alt="" />
+            <div class="user-info">
+              <h3>Vincecia Chasandra</h3>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <p>
+            Semua hidangan di restoran ini sangat lezat sekali, terutama untuk
+            menu spaghetti bolognese nya. Saya sangat merekomendasikan restoran
+            ini untuk kalian yang ingin menikmati hidangan lezat untuk menemani
+            waktu Work Obligation kalian.😘😘🥰
+          </p>
+        </div>
+
+        <div class="box">
+          <i class="fas fa-quote-right"></i>
+          <div class="user">
+            <img src="img/Review Section/pic-3.png" alt="" />
+            <div class="user-info">
+              <h3>Margareta Hong Bing</h3>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <p>
+            One of the best cozy dining spots around. The grilled salmon was
+            cooked to perfection and reasonably priced.
+          </p>
+        </div>
+
+        <div class="box">
+          <i class="fas fa-quote-right"></i>
+          <div class="user">
+            <img src="img/Review Section/hoppers-tom.gif" alt="" />
+            <div class="user-info">
+              <h3>Marcy Priscilla</h3>
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <p>
+            Tempatnya bersih, adem, dan pelayanannya ramah banget. Cocok buat
+            makan santai bareng teman sehabis kuliah atau kerja.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- review section ends -->
+
+    <!-- footer section start -->
+    <section class="footer">
+      <div class="box-container">
+        <div class="box">
+          <h3>Locations</h3>
+          <a
+            href="https://www.google.com/maps?q=Karawaci,+Tangerang,+Banten"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fas fa-map-marker-alt"></i> Karawaci</a
+          >
+          <a
+            href="https://www.google.com/maps?q=Gading+Serpong,+Tangerang,+Banten"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fas fa-map-marker-alt"></i> Gading Serpong</a
+          >
+          <a
+            href="https://www.google.com/maps?q=Alam+Sutera,+Tangerang+Selatan,+Banten"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fas fa-map-marker-alt"></i> Alam Sutera</a
+          >
+          <a
+            href="https://www.google.com/maps?q=BSD+City,+Tangerang+Selatan,+Banten"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fas fa-map-marker-alt"></i> BSD City</a
+          >
+          <a
+            href="https://www.google.com/maps?q=Jakarta+Selatan,+Jakarta"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fas fa-map-marker-alt"></i> Jakarta Selatan</a
+          >
+        </div>
+
+        <div class="box">
+          <h3>Contact Info</h3>
+          <a href="tel:+62215550199"
+            ><i class="fas fa-phone"></i> +62 21-555-0199</a
+          >
+          <a
+            href="https://wa.me/081234567890"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fab fa-whatsapp"></i> +62 812-3456-7890</a
+          >
+          <a href="mailto:hello@bistroeleven.com"
+            ><i class="fas fa-envelope"></i> hello@bistroeleven.com</a
+          >
+          <a href="#"
+            ><i class="fas fa-headset"></i> support@bistroeleven.com</a
+          >
+          <a href="#"
+            ><i class="fas fa-map-marker-alt"></i> Tangerang, Banten - 15810</a
+          >
+        </div>
+
+        <div class="box">
+          <h3>Follow Us</h3>
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fab fa-instagram"></i> Instagram</a
+          >
+          <a
+            href="https://tiktok.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fab fa-tiktok"></i> TikTok</a
+          >
+          <a
+            href="https://facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fab fa-facebook-f"></i> Facebook</a
+          >
+          <a
+            href="https://youtube.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fab fa-youtube"></i> YouTube</a
+          >
+        </div>
+      </div>
+      <div class="credit">
+        Copyright &copy; 2026 by <span>Bistro Eleven</span>
+      </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal-overlay" id="payment-modal">
+      <div class="payment-box">
+        <h3>Payment Summary</h3>
+        <p>Total Bill: <br /><span id="payment-total-price">Rp 0</span></p>
+        <select id="payment-method" required title="Select Payment Method">
+          <option value="" disabled selected>Select Payment Method</option>
+          <option value="cod">Cash on Delivery (COD)</option>
+          <option value="transfer">Bank Transfer (BCA/Mandiri)</option>
+          <option value="ewallet">E-Wallet (OVO/GoPay/Dana)</option>
+        </select>
+        <div class="payment-actions">
+          <button class="btn" id="confirm-payment-btn">Pay Now</button>
+          <button class="btn cancel-btn" id="cancel-payment-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preparing Order Modal -->
+    <div class="payment-modal-overlay" id="preparing-modal">
+      <div class="payment-box preparing-box">
+        <div class="icon-circle">
+          <i class="fas fa-utensils"></i>
+        </div>
+        <h3>Preparing Your Order...</h3>
+        <p>
+          Please wait a moment, our chef is preparing the best dish for you at
+          Bistro Eleven!
+        </p>
+      </div>
+    </div>
+
+    <!-- Success Order Modal -->
+    <div class="payment-modal-overlay" id="success-modal">
+      <div class="payment-box success-box">
+        <div class="icon-circle">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3>Thank You for Ordering!</h3>
+        <p>
+          Your order at Bistro Eleven has been confirmed and is being processed.
+        </p>
+        <div class="order-details-box">
+          <h4>Your Order Details:</h4>
+          <div id="success-order-items"></div>
+          <div class="order-total-row">
+            <h4>Total Payment:</h4>
+            <h4 id="success-total-price">Rp 0</h4>
+          </div>
+        </div>
+        <a href="Index.html" class="btn block-btn">Back to Home</a>
+      </div>
+    </div>
+
+    <!-- Search Results Modal -->
+    <div class="payment-modal-overlay" id="search-results-modal">
+      <div class="search-results-box">
+        <i class="fas fa-times" id="close-search-results"></i>
+        <h3 class="search-results-title">Search Results</h3>
+        <div
+          class="box-container dishes menu"
+          id="search-results-container"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Product Detail Modal (Quick View) -->
+    <div class="payment-modal-overlay" id="product-detail-modal">
+      <div class="product-detail-box">
+        <i class="fas fa-times" id="close-product-detail"></i>
+
+        <!-- Gambar di sebelah kiri -->
+        <div>
+          <img src="" alt="" id="modal-product-img" />
+        </div>
+
+        <!-- Deskripsi dan info produk di sebelah kanan -->
+        <div>
+          <h3 id="modal-product-title">Product Title</h3>
+          <div class="stars" id="modal-product-stars"></div>
+          <p id="modal-product-desc">Product description will appear here...</p>
+          <span class="price" id="modal-product-price">Rp 0</span>
+          <a
+            href="javascript:void(0)"
+            class="btn add-to-cart"
+            id="modal-add-to-cart"
+            >add to cart</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

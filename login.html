@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Food Ordering Web</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Header Section -->
+    <header>
+      <a href="Index.html#home" class="logo"><i class="fas fa-utensils"></i> Bistro Eleven</a>
+
+      <nav class="navbar">
+          <a href="Index.html#home">home</a>
+          <a href="Index.html#dishes">dishes</a>
+          <a href="Index.html#about">about</a>
+          <a href="Index.html#menu">menu</a>
+          <a href="Index.html#review">review</a>
+          <a href="checkout.html">order</a>
+      </nav>
+
+      <div class="icons">
+        <i class="fas fa-bars" id="menu-bars"></i>
+        <i class="fas fa-search" id="search-icon"></i>
+        <i class="fas fa-sun" id="theme-toggle" title="Toggle Light Mode"></i>
+          <div id="auth-container"></div>
+        <i class="fas fa-heart" id="wishlist-icon"></i>
+        <i class="fas fa-shopping-cart" id="cart-icon"></i>
+      </div>
+    </header>
+
+    <!-- Search Bar Section -->
+    <form action="" id="search-form">
+      <input type="search" placeholder="search here..." id="search-box" />
+      <label for="search-box" class="fas fa-search"></label>
+      <i class="fas fa-times" id="close"></i>
+    </form>
+
+    <!-- Wishlist Section -->
+    <div class="cart-items-container" id="wishlist-items-container">
+      <div class="cart-header">
+        <h3>your wishlist</h3>
+        <i class="fas fa-times" id="wishlist-close"></i>
+      </div>
+      <div class="cart-items" id="wishlist-items"></div>
+    </div>
+
+    <!-- Cart Section -->
+    <div class="cart-items-container" id="cart-items-container">
+      <div class="cart-header">
+        <h3>your cart</h3>
+        <i class="fas fa-times" id="cart-close"></i>
+      </div>
+      <div class="cart-items"></div>
+      <div class="cart-total">
+        total : <span id="cart-total-price">Rp 0</span>
+      </div>
+      <a href="checkout.html" class="btn checkout-btn" onclick="document.getElementById('cart-items-container').classList.remove('active')">checkout now</a>
+    </div>
+
+    <!-- Login Section -->
+    <section class="login" id="login">
+        
+    <div id="auth-forms-container">
+        
+        <!-- Login Form -->
+        <form action="" id="login-form">
+            <h3>Welcome Back</h3>
+            <div class="inputBox">
+                <input type="email" id="login-email" placeholder="Email Address" required />
+                <input type="password" id="login-password" placeholder="Password" required />
+            </div>
+            <button type="submit" class="btn">Login Now</button>
+            <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form action="" id="signup-form">
+            <h3>Create Account</h3>
+            <div class="inputBox">
+                <input type="text" id="signup-name" placeholder="Full Name" required />
+                <input type="email" id="signup-email" placeholder="Email Address" required />
+                <input type="password" id="signup-password" placeholder="Password" required />
+            </div>
+            <button type="submit" class="btn">Sign Up Now</button>
+            <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+        </form>
+
+    </div>
+    
+    </section>
+
+    <!-- footer section start -->
+    <section class="footer">
+      <div class="box-container">
+        <div class="box">
+          <h3>Locations</h3>
+          <a href="https://www.google.com/maps?q=Karawaci,+Tangerang,+Banten" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> Karawaci</a>
+          <a href="https://www.google.com/maps?q=Gading+Serpong,+Tangerang,+Banten" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> Gading Serpong</a>
+          <a href="https://www.google.com/maps?q=Alam+Sutera,+Tangerang+Selatan,+Banten" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> Alam Sutera</a>
+          <a href="https://www.google.com/maps?q=BSD+City,+Tangerang+Selatan,+Banten" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> BSD City</a>
+          <a href="https://www.google.com/maps?q=Jakarta+Selatan,+Jakarta" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> Jakarta Selatan</a>
+        </div>
+
+        <div class="box">
+          <h3>Contact Info</h3>
+          <a href="tel:+62215550199"><i class="fas fa-phone"></i> +62 21-555-0199</a>
+          <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> +62 812-3456-7890</a>
+          <a href="mailto:hello@bistroeleven.com"><i class="fas fa-envelope"></i> hello@bistroeleven.com</a>
+          <a href="mailto:support@bistroeleven.com"><i class="fas fa-headset"></i> support@bistroeleven.com</a>
+          <a href="https://www.google.com/maps?q=Tangerang,+Banten+15810" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> Tangerang, Banten - 15810</a>
+        </div>
+
+        <div class="box">
+          <h3>Follow Us</h3>
+          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a>
+          <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i> TikTok</a>
+          <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a>
+          <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
+        </div>
+      </div>
+      <div class="credit">Copyright &copy; 2026 by <span>Bistro Eleven</span></div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal-overlay" id="payment-modal">
+      <div class="payment-box">
+        <h3>Payment Summary</h3>
+        <p>Total Bill: <br /><span id="payment-total-price">Rp 0</span></p>
+        <select id="payment-method" required title="Select Payment Method">
+          <option value="" disabled selected>Select Payment Method</option>
+          <option value="cod">Cash on Delivery (COD)</option>
+          <option value="transfer">Bank Transfer (BCA/Mandiri)</option>
+          <option value="ewallet">E-Wallet (OVO/GoPay/Dana)</option>
+        </select>
+        <div class="payment-actions">
+          <button class="btn" id="confirm-payment-btn">Pay Now</button>
+          <button class="btn cancel-btn" id="cancel-payment-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- Preparing Order Modal -->
+    <div class="payment-modal-overlay" id="preparing-modal">
+        <div class="payment-box preparing-box">
+            <div class="icon-circle">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <h3>Preparing Your Order...</h3>
+            <p>Please wait a moment, our chef is preparing the best dish for you at Bistro Eleven!</p>
+        </div>
+    </div>
+
+    <!-- Success Order Modal -->
+    <div class="payment-modal-overlay" id="success-modal">
+        <div class="payment-box success-box">
+            <div class="icon-circle">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3>Thank You for Ordering!</h3>
+            <p>Your order at Bistro Eleven has been confirmed and is being processed.</p>
+            <div class="order-details-box">
+                <h4>Your Order Details:</h4>
+                <div id="success-order-items"></div>
+                <div class="order-total-row">
+                    <h4>Total Payment:</h4>
+                    <h4 id="success-total-price">Rp 0</h4>
+                </div>
+            </div>
+            <a href="Index.html" class="btn block-btn" >Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Search Results Modal -->
+    <div class="payment-modal-overlay" id="search-results-modal">
+      <div class="search-results-box">
+        <i class="fas fa-times" id="close-search-results"></i>
+        <h3 class="search-results-title">Search Results</h3>
+        <div
+          class="box-container dishes menu"
+          id="search-results-container"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Product Detail Modal (Quick View) -->
+    <div class="payment-modal-overlay" id="product-detail-modal">
+      <div class="product-detail-box">
+        <i class="fas fa-times" id="close-product-detail"></i>
+
+        <!-- Gambar di sebelah kiri -->
+        <div>
+          <img src="" alt="" id="modal-product-img" />
+        </div>
+
+        <!-- Deskripsi dan info produk di sebelah kanan -->
+        <div>
+          <h3 id="modal-product-title">Product Title</h3>
+          <div class="stars" id="modal-product-stars"></div>
+          <p id="modal-product-desc">Product description will appear here...</p>
+          <span class="price" id="modal-product-price">Rp 0</span>
+          <a
+            href="javascript:void(0)"
+            class="btn add-to-cart"
+            id="modal-add-to-cart"
+            >add to cart</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
