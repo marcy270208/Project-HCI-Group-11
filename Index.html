@@ -55,6 +55,7 @@
       />
       <label for="search-box" class="fas fa-search"></label>
       <i class="fas fa-times" id="close"></i>
+      <div id="search-suggestions" aria-live="polite"></div>
     </form>
 
     <!-- Wishlist Section -->
@@ -299,6 +300,7 @@
           </div>
         </div>
       </div>
+
     </section>
     <!-- dishes section ends -->
 
@@ -310,9 +312,11 @@
       <div class="row">
         <div class="image">
           <img src="Img/About Section/about.jpeg" alt="" />
+          <span class="about-image-badge"><i class="fas fa-leaf"></i> made fresh daily</span>
         </div>
 
         <div class="content">
+          <span class="about-kicker">the bistro difference</span>
           <h3>Best Culinary Experience in Country</h3>
           <p>
             We serve fresh, honest food made with quality local ingredients.
@@ -324,17 +328,26 @@
             taste, warm vibes, and meals you'll truly enjoy.
           </p>
           <div class="icons-container">
-            <div class="icons">
+            <div class="icons service-card" role="button" tabindex="0" data-service="delivery" aria-label="Learn more about free delivery">
               <i class="fas fa-shipping-fast"></i>
-              <span>Free delivery</span>
+              <div>
+                <span>Free delivery</span>
+                <small>From our kitchen to your door.</small>
+              </div>
             </div>
-            <div class="icons">
+            <div class="icons service-card" role="button" tabindex="0" data-service="payments" aria-label="Learn more about easy payments">
               <i class="fas fa-dollar-sign"></i>
-              <span>Easy payments</span>
+              <div>
+                <span>Easy payments</span>
+                <small>Simple, secure checkout every time.</small>
+              </div>
             </div>
-            <div class="icons">
+            <div class="icons service-card" role="button" tabindex="0" data-service="support" aria-label="Learn more about 24/7 service">
               <i class="fas fa-headset"></i>
-              <span>24/7 service</span>
+              <div>
+                <span>24/7 service</span>
+                <small>Here whenever your cravings call.</small>
+              </div>
             </div>
           </div>
         </div>
@@ -732,12 +745,13 @@
     <section class="review" id="review">
       <h3 class="sub-heading">customer's review</h3>
       <h1 class="heading">what they say</h1>
+      <button class="btn review-open-btn" id="open-review-form" type="button"><i class="fas fa-pen"></i> Write a review</button>
 
-      <div class="box-container">
+      <div class="box-container" id="customer-reviews">
         <div class="box">
           <i class="fas fa-quote-right"></i>
           <div class="user">
-            <img src="Img/Review Section/pic-1.jpg" alt="" />
+            <img src="img/Review Section/pic-1.jpg" alt="" />
             <div class="user-info">
               <h3>Graciella Coffee Oey</h3>
               <div class="stars">
@@ -758,9 +772,9 @@
         <div class="box">
           <i class="fas fa-quote-right"></i>
           <div class="user">
-            <img src="Img/Review Section/pic-2.jpeg" alt="" />
+            <img src="img/Review Section/pic-2.jpeg" alt="" />
             <div class="user-info">
-              <h3>Vincecia Chasandra</h3>
+              <h3>Vincencia Chasandra</h3>
               <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -781,7 +795,7 @@
         <div class="box">
           <i class="fas fa-quote-right"></i>
           <div class="user">
-            <img src="Img/Review Section/pic-3.png" alt="" />
+            <img src="img/Review Section/pic-3.png" alt="" />
             <div class="user-info">
               <h3>Margareta Hong Bing</h3>
               <div class="stars">
@@ -802,7 +816,7 @@
         <div class="box">
           <i class="fas fa-quote-right"></i>
           <div class="user">
-            <img src="Img/Review Section/hoppers-tom.gif" alt="" />
+            <img src="img/Review Section/pic-4.jpeg" alt="" />
             <div class="user-info">
               <h3>Marcy Priscilla</h3>
               <div class="stars">
@@ -1004,6 +1018,128 @@
             >add to cart</a
           >
         </div>
+      </div>
+    </div>
+
+    <!-- Service Detail Modal -->
+    <div class="payment-modal-overlay" id="service-detail-modal">
+      <div class="service-detail-box">
+        <button class="service-detail-close" id="close-service-detail" type="button" aria-label="Close service details">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="service-detail-icon" id="service-detail-icon"></div>
+        <span class="about-kicker">bistro eleven promise</span>
+        <h3 id="service-detail-title"></h3>
+        <p id="service-detail-description"></p>
+      </div>
+    </div>
+
+    <!-- Account Settings Modal -->
+    <div class="payment-modal-overlay" id="account-settings-modal">
+      <div class="account-settings-box">
+        <button class="settings-close" id="close-account-settings" type="button" aria-label="Close account settings">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="settings-heading">
+          <span class="settings-icon"><i class="fas fa-user-cog"></i></span>
+          <div>
+            <h3>Account settings</h3>
+            <p>Keep your Bistro Eleven profile up to date.</p>
+          </div>
+        </div>
+        <form id="account-settings-form">
+          <div class="profile-photo-field">
+            <div class="profile-photo-preview" id="settings-photo-preview">
+              <i class="fas fa-user" aria-hidden="true"></i>
+            </div>
+            <div class="profile-photo-copy">
+              <strong>Profile photo</strong>
+              <small>Choose a JPG, PNG, or WebP image up to 2 MB.</small>
+              <div class="profile-photo-actions">
+                <label class="photo-upload-btn" for="settings-photo">Choose photo</label>
+                <button class="photo-remove-btn" id="remove-settings-photo" type="button">Remove</button>
+              </div>
+              <input id="settings-photo" type="file" accept="image/png,image/jpeg,image/webp" />
+            </div>
+          </div>
+          <div class="settings-field">
+            <label for="settings-name">Display name</label>
+            <input id="settings-name" type="text" autocomplete="name" required />
+          </div>
+          <div class="settings-field">
+            <label for="settings-email">Email address</label>
+            <input id="settings-email" type="email" autocomplete="email" required />
+          </div>
+          <div class="settings-divider">
+            <span>Change password</span>
+            <small>Leave these fields empty to keep your current password.</small>
+          </div>
+          <div class="settings-field">
+            <label for="settings-current-password">Current password</label>
+            <input id="settings-current-password" type="password" autocomplete="current-password" placeholder="Enter current password" />
+          </div>
+          <div class="settings-field">
+            <label for="settings-new-password">New password</label>
+            <input id="settings-new-password" type="password" autocomplete="new-password" placeholder="At least 6 characters" />
+          </div>
+          <div class="settings-field">
+            <label for="settings-confirm-password">Confirm new password</label>
+            <input id="settings-confirm-password" type="password" autocomplete="new-password" placeholder="Repeat new password" />
+          </div>
+          <div class="settings-actions">
+            <button class="btn settings-cancel" id="cancel-account-settings" type="button">Cancel</button>
+            <button class="btn" type="submit">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Review Modal -->
+    <div class="payment-modal-overlay" id="review-form-modal">
+      <div class="review-submission-area">
+        <button class="review-modal-close" id="close-review-form" type="button" aria-label="Close review form">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="review-form-intro">
+          <span class="about-kicker">share your experience</span>
+          <h2>Tell us what you think</h2>
+          <p>Your feedback helps us make every Bistro Eleven visit better.</p>
+        </div>
+        <form id="review-form" class="review-form">
+          <div class="review-form-row">
+            <div class="review-field">
+              <label for="review-name">Your name</label>
+              <input id="review-name" type="text" autocomplete="name" placeholder="Enter your name" required />
+            </div>
+            <div class="review-field">
+              <label>Rating</label>
+              <div class="rating-picker" id="rating-picker" role="radiogroup" aria-label="Choose a rating from one to five stars">
+                <button type="button" data-rating="1" aria-label="1 star"><i class="fas fa-star"></i></button>
+                <button type="button" data-rating="2" aria-label="2 stars"><i class="fas fa-star"></i></button>
+                <button type="button" data-rating="3" aria-label="3 stars"><i class="fas fa-star"></i></button>
+                <button type="button" data-rating="4" aria-label="4 stars"><i class="fas fa-star"></i></button>
+                <button type="button" data-rating="5" aria-label="5 stars"><i class="fas fa-star"></i></button>
+              </div>
+              <input id="review-rating" type="hidden" value="" required />
+            </div>
+          </div>
+          <div class="review-field">
+            <label for="review-comment">Your comment</label>
+            <textarea id="review-comment" rows="4" maxlength="300" placeholder="What did you enjoy?" required></textarea>
+          </div>
+          <button class="btn review-submit" type="submit"><i class="fas fa-paper-plane"></i> Post review</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Profile Photo Preview -->
+    <div class="payment-modal-overlay" id="profile-photo-modal">
+      <div class="profile-photo-viewer">
+        <button id="close-profile-photo" class="photo-viewer-close" type="button" aria-label="Close profile photo">
+          <i class="fas fa-times"></i>
+        </button>
+        <img id="profile-photo-image" src="" alt="Profile photo" />
+        <p id="profile-photo-name"></p>
       </div>
     </div>
 

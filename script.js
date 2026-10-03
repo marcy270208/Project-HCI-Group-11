@@ -19,20 +19,203 @@ document.addEventListener('DOMContentLoaded', () => {
     if (authContainer) {
         if (isLoggedIn()) {
             let currentUser = localStorage.getItem('currentUser') || 'Guest';
+            let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            let currentUserRecord = registeredUsers.find(user => user.name === currentUser);
+            let profilePhoto = currentUserRecord?.profilePhoto || '';
+            let accountAvatar = profilePhoto
+                ? `<img src="${profilePhoto}" alt="${currentUser} profile photo">`
+                : '<i class="fas fa-user-circle" aria-hidden="true"></i>';
+            let panelAvatar = profilePhoto
+                ? `<img src="${profilePhoto}" alt="${currentUser} profile photo">`
+                : '<i class="fas fa-user" aria-hidden="true"></i>';
             authContainer.innerHTML = `
-                <span style="font-size: 1.5rem; color: var(--text-muted);">Hi, <b style="color: var(--secondary);">${currentUser}</b></span>
-                <button id="logout-btn" class="btn" style="padding: 0.7rem 1.5rem; font-size: 1.3rem; border-radius: 2rem; background: #ef4444; box-shadow: none;">Logout</button>
+                <div class="account-menu">
+                    <button id="account-toggle" class="account-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+                        <span class="account-trigger-avatar">${accountAvatar}</span>
+                        <span class="account-name">${currentUser}</span>
+                        <i class="fas fa-chevron-down account-chevron" aria-hidden="true"></i>
+                    </button>
+                    <div class="account-panel" role="menu">
+                        <div class="account-panel-header">
+                            <span class="account-avatar">${panelAvatar}</span>
+                            <div>
+                                <strong>${currentUser}</strong>
+                                <small>Signed in</small>
+                            </div>
+                        </div>
+                        <button id="account-settings-btn" class="account-setting-action" type="button" role="menuitem">
+                            <i class="fas fa-user-cog" aria-hidden="true"></i> Account settings
+                        </button>
+                        <button id="logout-btn" class="account-signout" type="button" role="menuitem">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sign out
+                        </button>
+                    </div>
+                </div>
             `;
+            let accountToggle = document.querySelector('#account-toggle');
+            let accountMenu = document.querySelector('.account-menu');
+            let profilePhotoModal = document.querySelector('#profile-photo-modal');
+            let profilePhotoImage = document.querySelector('#profile-photo-image');
+            let profilePhotoName = document.querySelector('#profile-photo-name');
+            let closeProfilePhoto = document.querySelector('#close-profile-photo');
+            const openProfilePhoto = (event) => {
+                if (!profilePhoto || !profilePhotoModal) return;
+                event.stopPropagation();
+                profilePhotoImage.src = profilePhoto;
+                profilePhotoName.innerText = currentUser;
+                profilePhotoModal.classList.add('active');
+                accountMenu.classList.remove('active');
+                accountToggle.setAttribute('aria-expanded', 'false');
+            };
+            if (profilePhotoModal && closeProfilePhoto) {
+                document.querySelector('.account-trigger-avatar img')?.addEventListener('click', openProfilePhoto);
+                document.querySelector('.account-avatar img')?.addEventListener('click', openProfilePhoto);
+                closeProfilePhoto.onclick = () => profilePhotoModal.classList.remove('active');
+                profilePhotoModal.onclick = (event) => {
+                    if (event.target === profilePhotoModal) profilePhotoModal.classList.remove('active');
+                };
+            }
+            accountToggle.onclick = () => {
+                let isOpen = accountMenu.classList.toggle('active');
+                accountToggle.setAttribute('aria-expanded', isOpen);
+            };
+            document.addEventListener('click', (event) => {
+                if (!accountMenu.contains(event.target)) {
+                    accountMenu.classList.remove('active');
+                    accountToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
             document.querySelector('#logout-btn').onclick = () => {
                 localStorage.setItem('isLoggedIn', 'false');
                 localStorage.removeItem('currentUser');
                 showToast('Logged out successfully!');
                 setTimeout(() => window.location.reload(), 1000);
             };
+
+            let settingsButton = document.querySelector('#account-settings-btn');
+            let settingsModal = document.querySelector('#account-settings-modal');
+            let settingsForm = document.querySelector('#account-settings-form');
+            let settingsName = document.querySelector('#settings-name');
+            let settingsEmail = document.querySelector('#settings-email');
+            let settingsCurrentPassword = document.querySelector('#settings-current-password');
+            let settingsNewPassword = document.querySelector('#settings-new-password');
+            let settingsConfirmPassword = document.querySelector('#settings-confirm-password');
+            let settingsClose = document.querySelector('#close-account-settings');
+            let settingsCancel = document.querySelector('#cancel-account-settings');
+            let settingsPhoto = document.querySelector('#settings-photo');
+            let settingsPhotoPreview = document.querySelector('#settings-photo-preview');
+            let removeSettingsPhoto = document.querySelector('#remove-settings-photo');
+            let pendingProfilePhoto = profilePhoto;
+
+            const renderSettingsPhoto = (photo) => {
+                settingsPhotoPreview.innerHTML = photo
+                    ? `<img src="${photo}" alt="Profile photo preview">`
+                    : '<i class="fas fa-user" aria-hidden="true"></i>';
+            };
+
+            if (settingsButton && settingsModal && settingsForm) {
+                settingsButton.onclick = () => {
+                    accountMenu.classList.remove('active');
+                    accountToggle.setAttribute('aria-expanded', 'false');
+                    settingsName.value = currentUser;
+                    settingsEmail.value = currentUserRecord ? currentUserRecord.email : '';
+                    pendingProfilePhoto = currentUserRecord?.profilePhoto || '';
+                    renderSettingsPhoto(pendingProfilePhoto);
+                    settingsCurrentPassword.value = '';
+                    settingsNewPassword.value = '';
+                    settingsConfirmPassword.value = '';
+                    settingsModal.classList.add('active');
+                };
+
+                const closeSettings = () => settingsModal.classList.remove('active');
+                settingsClose.onclick = closeSettings;
+                settingsCancel.onclick = closeSettings;
+                settingsModal.onclick = (event) => {
+                    if (event.target === settingsModal) closeSettings();
+                };
+
+                settingsPhoto.onchange = () => {
+                    let file = settingsPhoto.files[0];
+                    if (!file) return;
+                    if (!file.type.startsWith('image/')) {
+                        showToast('Please choose an image file.');
+                        settingsPhoto.value = '';
+                        return;
+                    }
+                    if (file.size > 2 * 1024 * 1024) {
+                        showToast('Profile photo must be 2 MB or smaller.');
+                        settingsPhoto.value = '';
+                        return;
+                    }
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        pendingProfilePhoto = reader.result;
+                        renderSettingsPhoto(pendingProfilePhoto);
+                    };
+                    reader.readAsDataURL(file);
+                };
+
+                removeSettingsPhoto.onclick = () => {
+                    pendingProfilePhoto = '';
+                    settingsPhoto.value = '';
+                    renderSettingsPhoto('');
+                };
+
+                settingsForm.onsubmit = (event) => {
+                    event.preventDefault();
+                    let updatedName = settingsName.value.trim();
+                    let updatedEmail = settingsEmail.value.trim().toLowerCase();
+                    let currentPassword = settingsCurrentPassword.value;
+                    let newPassword = settingsNewPassword.value;
+                    let confirmPassword = settingsConfirmPassword.value;
+                    if (!updatedName) {
+                        showToast('Please enter your name.');
+                        return;
+                    }
+                    if (!updatedEmail || !settingsEmail.validity.valid) {
+                        showToast('Please enter a valid email address.');
+                        return;
+                    }
+
+                    let userRecord = registeredUsers.find(user => user.name === currentUser);
+                    if (!userRecord) {
+                        showToast('Account details could not be found.');
+                        return;
+                    }
+                    let emailTaken = registeredUsers.some(user => user.email.toLowerCase() === updatedEmail && user !== userRecord);
+                    if (emailTaken) {
+                        showToast('That email address is already in use.');
+                        return;
+                    }
+                    if (newPassword || confirmPassword || currentPassword) {
+                        if (currentPassword !== userRecord.password) {
+                            showToast('Enter your current password to change it.');
+                            return;
+                        }
+                        if (newPassword.length < 6) {
+                            showToast('New password must be at least 6 characters.');
+                            return;
+                        }
+                        if (newPassword !== confirmPassword) {
+                            showToast('New passwords do not match.');
+                            return;
+                        }
+                        userRecord.password = newPassword;
+                    }
+                    userRecord.name = updatedName;
+                    userRecord.email = updatedEmail;
+                    userRecord.profilePhoto = pendingProfilePhoto;
+                    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                    localStorage.setItem('currentUser', updatedName);
+                    closeSettings();
+                    showToast('Account settings saved.');
+                    setTimeout(() => window.location.reload(), 700);
+                };
+            }
         } else {
             authContainer.innerHTML = `
-                <a href="login.html" class="btn" style="padding: 0.7rem 1.5rem; font-size: 1.3rem; border-radius: 2rem; box-shadow: none;">Sign In</a>
-                <a href="login.html" class="btn" style="padding: 0.7rem 1.5rem; font-size: 1.3rem; border-radius: 2rem; background: transparent; border: 1px solid var(--primary); color: var(--primary); box-shadow: none;">Sign Up</a>
+                <a href="login.html" class="btn auth-action">Sign In</a>
+                <a href="login.html" class="btn auth-action auth-outline">Sign Up</a>
             `;
         }
     }
@@ -247,7 +430,9 @@ function updateCartUI() {
     let cartItemsContainer = document.querySelector('#cart-items-container .cart-items');
     let cartTotal = document.querySelector('#cart-total-price');
     if(!cartItemsContainer) return;
-    cartItemsContainer.innerHTML = '';
+    cartItemsContainer.innerHTML = cart.length === 0
+        ? '<div class="empty-cart-state"><i class="fas fa-shopping-basket"></i><strong>Your cart is empty</strong><span>Add a dish before checking out.</span></div>'
+        : '';
     
     let total = 0;
 
@@ -272,7 +457,29 @@ function updateCartUI() {
     });
 
     if(cartTotal) cartTotal.innerText = 'Rp ' + total.toLocaleString('id-ID');
+
+    let checkoutLinks = document.querySelectorAll('.checkout-btn');
+    checkoutLinks.forEach(link => {
+        let isEmpty = cart.length === 0;
+        link.classList.toggle('is-disabled', isEmpty);
+        link.setAttribute('aria-disabled', isEmpty);
+    });
+
+    let orderSubmit = document.querySelector('.order form button[type="submit"]');
+    if (orderSubmit) {
+        orderSubmit.disabled = cart.length === 0;
+        orderSubmit.classList.toggle('is-disabled', cart.length === 0);
+    }
 }
+
+document.querySelectorAll('.checkout-btn').forEach(link => {
+    link.addEventListener('click', (event) => {
+        if (cart.length === 0) {
+            event.preventDefault();
+            showToast('Your cart is empty! Add a dish before checking out.');
+        }
+    });
+});
 
 window.changeQty = function(index, delta) {
     if (cart[index].qty + delta > 0) {
@@ -483,6 +690,7 @@ if (confirmBtn) {
   let searchResultsModal = document.querySelector('#search-results-modal');
   let searchResultsContainer = document.querySelector('#search-results-container');
   let closeSearchResults = document.querySelector('#close-search-results');
+    let searchSuggestions = document.querySelector('#search-suggestions');
   
   if (closeSearchResults) {
       closeSearchResults.onclick = () => {
@@ -491,6 +699,63 @@ if (confirmBtn) {
   }
 
   if(searchFormEl && searchBoxEl) {
+      const normalizeSearchText = (value) => value
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .trim();
+
+      const getSearchMatches = (value) => {
+          let normalizedValue = normalizeSearchText(value);
+          if (!normalizedValue) return [];
+          let terms = normalizedValue.split(/\s+/);
+          let matches = [];
+          let names = new Set();
+
+          document.querySelectorAll('.dishes .box, .menu .box').forEach(box => {
+              let title = box.querySelector('h3')?.innerText.trim() || '';
+              let description = box.querySelector('p')?.innerText || '';
+              let searchableText = normalizeSearchText(`${title} ${description}`);
+              let titleWords = normalizeSearchText(title).split(/\s+/);
+              let matchesPrefix = terms.every(term => titleWords.some(word => word.startsWith(term)));
+              let matchesText = terms.every(term => searchableText.includes(term));
+
+              let usePrefixSearch = normalizedValue.length === 1;
+              if ((matchesPrefix || (!usePrefixSearch && matchesText)) && !names.has(title.toLowerCase())) {
+                  names.add(title.toLowerCase());
+                  matches.push(box);
+              }
+          });
+          return matches;
+      };
+
+      const renderSearchSuggestions = () => {
+          let query = searchBoxEl.value.trim();
+          searchSuggestions.innerHTML = '';
+          if (!query) {
+              searchSuggestions.classList.remove('active');
+              return;
+          }
+
+          let matches = getSearchMatches(query).slice(0, 6);
+          matches.forEach(box => {
+              let title = box.querySelector('h3')?.innerText.trim() || 'Dish';
+              let image = box.querySelector('img')?.src || '';
+              let price = box.querySelector('.price')?.innerText || '';
+              let suggestion = document.createElement('button');
+              suggestion.type = 'button';
+              suggestion.className = 'search-suggestion';
+              suggestion.innerHTML = `<img src="${image}" alt=""><span><strong>${title}</strong><small>${price}</small></span>`;
+              suggestion.onclick = () => {
+                  searchBoxEl.value = title;
+                  executeSearch();
+              };
+              searchSuggestions.appendChild(suggestion);
+          });
+
+          searchSuggestions.classList.toggle('active', matches.length > 0);
+      };
+
       const executeSearch = (e) => {
           if (e) e.preventDefault();
           let query = searchBoxEl.value.toLowerCase().trim();
@@ -502,7 +767,8 @@ if (confirmBtn) {
               return;
           }
 
-          let allBoxes = document.querySelectorAll('.menu .box');
+          let normalizedQuery = normalizeSearchText(query);
+          let allBoxes = getSearchMatches(query);
           let foundCount = 0;
           let addedNames = new Set();
           searchResultsContainer.innerHTML = '';
@@ -510,10 +776,15 @@ if (confirmBtn) {
           allBoxes.forEach(box => {
               let titleElem = box.querySelector('h3');
               if(titleElem) {
-                  let title = titleElem.innerText.toLowerCase();
+                  let descriptionElem = box.querySelector('p');
+                  let searchableText = `${titleElem.innerText} ${descriptionElem ? descriptionElem.innerText : ''}`
+                      .toLowerCase()
+                      .normalize('NFD')
+                      .replace(/[\u0300-\u036f]/g, '');
                   let rawTitle = titleElem.innerText.trim();
-                  if(title.includes(query) && !addedNames.has(rawTitle)) {
-                      addedNames.add(rawTitle);
+                  let matchesEveryWord = normalizedQuery.split(/\s+/).every(term => searchableText.includes(term));
+                  if(matchesEveryWord && !addedNames.has(rawTitle.toLowerCase())) {
+                      addedNames.add(rawTitle.toLowerCase());
                       let clonedBox = box.cloneNode(true);
                       
                       // Attach Add to Cart listener
@@ -521,6 +792,7 @@ if (confirmBtn) {
                       if (addToCartBtn) {
                           addToCartBtn.onclick = (ev) => {
                               ev.preventDefault();
+                              if(!requireLogin()) return;
                               let imgElem = clonedBox.querySelector('img');
                               let img = imgElem ? imgElem.src : '';
                               let nameElem = clonedBox.querySelector('h3');
@@ -576,16 +848,22 @@ if (confirmBtn) {
           });
 
           if(foundCount > 0) {
+              let resultsTitle = document.querySelector('.search-results-title');
+              if (resultsTitle) resultsTitle.innerText = `Search results for "${searchBoxEl.value.trim()}"`;
               searchResultsModal.classList.add('active');
-              showToast('Found ' + foundCount + ' items for "' + query + '"');
+              showToast('Found ' + foundCount + ' item' + (foundCount === 1 ? '' : 's') + ' for "' + query + '"');
           } else {
+              let resultsTitle = document.querySelector('.search-results-title');
+              if (resultsTitle) resultsTitle.innerText = 'No dishes found';
               showToast('Item "' + query + '" not found!');
           }
           
           searchBoxEl.value = ''; // clear input
+          searchSuggestions.classList.remove('active');
       };
 
       searchFormEl.onsubmit = executeSearch;
+      searchBoxEl.addEventListener('input', renderSearchSuggestions);
       
       if(searchLabelEl) {
           searchLabelEl.onclick = (e) => {
@@ -595,6 +873,12 @@ if (confirmBtn) {
           }
       }
   }
+
+    document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            searchFormEl?.classList.remove('active');
+            searchResultsModal?.classList.remove('active');
+    });
 
 // Dummy Links handler
 document.querySelectorAll('.dummy-link').forEach(link => {
@@ -723,6 +1007,251 @@ document.addEventListener('DOMContentLoaded', () => {
             productDetailModal.classList.add('active');
         }
     });
+});
+
+// Customer review form and rating
+document.addEventListener('DOMContentLoaded', () => {
+    let reviewForm = document.querySelector('#review-form');
+    let reviewName = document.querySelector('#review-name');
+    let reviewRating = document.querySelector('#review-rating');
+    let reviewComment = document.querySelector('#review-comment');
+    let ratingPicker = document.querySelector('#rating-picker');
+    let customerReviews = document.querySelector('#customer-reviews');
+    let reviewModal = document.querySelector('#review-form-modal');
+    let openReviewButton = document.querySelector('#open-review-form');
+    let closeReviewButton = document.querySelector('#close-review-form');
+    if (!reviewForm || !ratingPicker || !customerReviews) return;
+
+    let reviews = JSON.parse(localStorage.getItem('customerReviews')) || [];
+    let editingReviewIndex = null;
+    let savedName = localStorage.getItem('currentUser') || '';
+    if (savedName) reviewName.value = savedName;
+
+    const updateRatingButtons = (rating) => {
+        ratingPicker.querySelectorAll('button').forEach(button => {
+            let isSelected = Number(button.dataset.rating) <= rating;
+            button.classList.toggle('selected', isSelected);
+            button.setAttribute('aria-checked', button.dataset.rating === String(rating));
+        });
+    };
+
+    ratingPicker.querySelectorAll('button').forEach(button => {
+        button.setAttribute('role', 'radio');
+        button.addEventListener('click', () => {
+            reviewRating.value = button.dataset.rating;
+            updateRatingButtons(Number(reviewRating.value));
+        });
+    });
+
+    const renderStars = (rating) => {
+        let stars = document.createElement('div');
+        stars.className = 'stars';
+        for (let index = 1; index <= 5; index += 1) {
+            let star = document.createElement('i');
+            star.className = index <= rating ? 'fas fa-star' : 'far fa-star';
+            stars.appendChild(star);
+        }
+        return stars;
+    };
+
+    const renderReviews = () => {
+        customerReviews.querySelectorAll('.customer-review-card').forEach(card => card.remove());
+        reviews.forEach(review => {
+            let card = document.createElement('div');
+            card.className = 'box customer-review-card';
+
+            let quote = document.createElement('i');
+            quote.className = 'fas fa-quote-right';
+            let user = document.createElement('div');
+            user.className = 'user';
+            let avatar = document.createElement('div');
+            avatar.className = 'user-avatar';
+            if (review.profilePhoto) {
+                let image = document.createElement('img');
+                image.src = review.profilePhoto;
+                image.alt = `${review.name} profile photo`;
+                avatar.appendChild(image);
+            } else {
+                let icon = document.createElement('i');
+                icon.className = 'fas fa-user';
+                avatar.appendChild(icon);
+            }
+            let userInfo = document.createElement('div');
+            userInfo.className = 'user-info';
+            let name = document.createElement('h3');
+            name.innerText = review.name;
+            userInfo.append(name, renderStars(review.rating));
+            user.append(avatar, userInfo);
+            let comment = document.createElement('p');
+            comment.innerText = review.comment;
+            card.append(quote, user, comment);
+            
+            if (isLoggedIn() && localStorage.getItem('currentUser') === review.name) {
+                let actions = document.createElement('div');
+                actions.className = 'customer-review-actions';
+                let editButton = document.createElement('button');
+                editButton.type = 'button';
+                editButton.className = 'review-edit-btn';
+                editButton.dataset.reviewIndex = reviews.indexOf(review);
+                editButton.innerHTML = '<i class="fas fa-pen"></i> Edit';
+                let deleteButton = document.createElement('button');
+                deleteButton.type = 'button';
+                deleteButton.className = 'review-delete-btn';
+                deleteButton.dataset.reviewIndex = reviews.indexOf(review);
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i> Delete';
+                actions.append(editButton, deleteButton);
+                card.appendChild(actions);
+            }
+            customerReviews.appendChild(card);
+        });
+    };
+
+    customerReviews.addEventListener('click', (event) => {
+        let editButton = event.target.closest('.review-edit-btn');
+        let deleteButton = event.target.closest('.review-delete-btn');
+        if (editButton) {
+            editingReviewIndex = Number(editButton.dataset.reviewIndex);
+            let review = reviews[editingReviewIndex];
+            if (!isLoggedIn() || localStorage.getItem('currentUser') !== review.name) {
+                showToast('You are not authorized to edit this review.');
+                return;
+            }
+            reviewName.value = review.name;
+            reviewComment.value = review.comment;
+            reviewRating.value = review.rating;
+            updateRatingButtons(review.rating);
+            reviewModal?.classList.add('active');
+            reviewName.focus();
+        }
+        if (deleteButton) {
+            let reviewIndex = Number(deleteButton.dataset.reviewIndex);
+            let review = reviews[reviewIndex];
+            if (!isLoggedIn() || localStorage.getItem('currentUser') !== review.name) {
+                showToast('You are not authorized to delete this review.');
+                return;
+            }
+            if (!window.confirm('Delete this review?')) return;
+            reviews.splice(reviewIndex, 1);
+            localStorage.setItem('customerReviews', JSON.stringify(reviews));
+            renderReviews();
+            showToast('Review deleted.');
+        }
+    });
+
+    reviewForm.onsubmit = (event) => {
+        event.preventDefault();
+        let name = reviewName.value.trim();
+        let rating = Number(reviewRating.value);
+        let comment = reviewComment.value.trim();
+        if (!name || !comment || rating < 1 || rating > 5) {
+            showToast('Please add your name, comment, and star rating.');
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        let currentUser = users.find(user => user.name === localStorage.getItem('currentUser'));
+        let reviewData = {
+            name,
+            rating,
+            comment,
+            profilePhoto: currentUser?.profilePhoto || '',
+            createdAt: Date.now()
+        };
+        if (editingReviewIndex === null) {
+            reviews.unshift(reviewData);
+        } else {
+            reviews[editingReviewIndex] = {
+                ...reviews[editingReviewIndex],
+                ...reviewData
+            };
+        }
+        localStorage.setItem('customerReviews', JSON.stringify(reviews));
+        renderReviews();
+        reviewForm.reset();
+        reviewRating.value = '';
+        updateRatingButtons(0);
+        if (savedName) reviewName.value = savedName;
+        reviewModal?.classList.remove('active');
+        showToast(editingReviewIndex === null ? 'Thank you for sharing your review!' : 'Review updated.');
+        editingReviewIndex = null;
+    };
+
+    const closeReviewModal = () => reviewModal?.classList.remove('active');
+    openReviewButton?.addEventListener('click', () => {
+        if (!requireLogin()) return;
+        editingReviewIndex = null;
+        reviewForm.reset();
+        reviewRating.value = '';
+        updateRatingButtons(0);
+        if (savedName) reviewName.value = savedName;
+        reviewModal?.classList.add('active');
+        reviewName.focus();
+    });
+    closeReviewButton?.addEventListener('click', () => {
+        editingReviewIndex = null;
+        closeReviewModal();
+    });
+    reviewModal?.addEventListener('click', (event) => {
+        if (event.target === reviewModal) {
+            editingReviewIndex = null;
+            closeReviewModal();
+        }
+    });
+
+    renderReviews();
+});
+
+// Why Choose Us detail modal
+document.addEventListener('DOMContentLoaded', () => {
+    let serviceModal = document.querySelector('#service-detail-modal');
+    let closeServiceModal = document.querySelector('#close-service-detail');
+    let serviceTitle = document.querySelector('#service-detail-title');
+    let serviceDescription = document.querySelector('#service-detail-description');
+    let serviceIcon = document.querySelector('#service-detail-icon');
+    let serviceDetails = {
+        delivery: {
+            title: 'Free delivery',
+            icon: 'fas fa-shipping-fast',
+            description: 'Enjoy your Bistro Eleven favorites at home with free delivery on every order. We pack each meal carefully so it arrives fresh, warm, and ready to enjoy.'
+        },
+        payments: {
+            title: 'Easy payments',
+            icon: 'fas fa-dollar-sign',
+            description: 'Ordering stays simple from start to finish. Choose the payment method that works for you.\n\nPayment methods:\n- Cash on Delivery (COD)\n- Bank Transfer (BCA / Mandiri)\n- E-Wallet (OVO / GoPay / Dana)'
+        },
+        support: {
+            title: '24/7 service',
+            icon: 'fas fa-headset',
+            description: 'Our support team is here whenever you need a hand with an order or menu question.\n\nContact us:\n- Phone: +62 21-555-0199\n- WhatsApp: +62 812-3456-7890\n- Email: hello@bistroeleven.com'
+        }
+    };
+
+    if (!serviceModal || !closeServiceModal) return;
+
+    const openServiceDetails = (card) => {
+        let detail = serviceDetails[card.dataset.service];
+        if (!detail) return;
+        serviceIcon.innerHTML = `<i class="${detail.icon}" aria-hidden="true"></i>`;
+        serviceTitle.innerText = detail.title;
+        serviceDescription.innerText = detail.description;
+        serviceModal.classList.add('active');
+    };
+
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('click', () => openServiceDetails(card));
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openServiceDetails(card);
+            }
+        });
+    });
+
+    const closeServiceDetails = () => serviceModal.classList.remove('active');
+    closeServiceModal.onclick = closeServiceDetails;
+    serviceModal.onclick = (event) => {
+        if (event.target === serviceModal) closeServiceDetails();
+    };
 });
 
 // Theme Toggle Logic
