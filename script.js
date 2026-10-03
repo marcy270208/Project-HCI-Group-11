@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('currentUser', validUser.name);
                 showToast('Login successful! Welcome ' + validUser.name);
                 setTimeout(() => {
-                    window.location.href = 'Index.html';
+                    window.location.href = 'index.html';
                 }, 1500);
             } else {
                 showToast('Login failed: Incorrect Email or Password!');
